@@ -1,6 +1,7 @@
 package com.job_manager.mai.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Data
 public class Role {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "role_name", nullable = false)
     private String roleName;
@@ -18,4 +20,7 @@ public class Role {
     @OneToMany
     @JsonIgnore
     private List<Account> accounts;
+
+    @ManyToMany
+    private List<Permission> permissions;
 }
