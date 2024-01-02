@@ -2,6 +2,8 @@ package com.job_manager.mai.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,25 +23,39 @@ public class Account implements UserDetails {
 
     @Id
     private String Id;
+    @Column(nullable = false, unique = true)
     private String username;
+    @Column(nullable = false)
     private String password;
 
     @Column(name = "is_verify")
-    private boolean isVerify;
+    private boolean isVerify = false;
 
     @Column(name = "is_active")
-    private boolean isActive;
+    private boolean isActive = false;
 
     @Column(name = "last_login_time")
-    private Date lastLoginTime;
+    private Date lastLoginTime = new Date(System.currentTimeMillis());
 
     @Column(name = "last_ip_login")
     private String lastIpLogin;
+
+    @Column(name = "verify_code")
+    private String verifyCode;
+
+    @Column(name = "verify_code_expired")
+    private Date verifyCodeExpired;
 
     @ManyToOne
     private Role role;
     @OneToOne
     private User user;
+
+    @CreationTimestamp
+    private Date createdAt;
+
+    @UpdateTimestamp
+    private Date updatedAt;
 
     @Override
     public String getUsername() {
