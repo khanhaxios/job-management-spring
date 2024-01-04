@@ -117,4 +117,26 @@ public class AccountService {
         mailService.sendVerifyMail(account.getUsername(), account.getVerifyCode());
         return getMapper().map(account, AccountResponse.class);
     }
+
+    public ResponseEntity<?> sendForgotPasswordCode(String email) {
+        Account account = accountRepository.findByUsername(email).orElseThrow(() -> new UsernameNotFoundException(Messages.USER_NOT_FOUND));
+        String code = uCodeProvider.generateUCode();
+        account.setVerifyCode(code);
+        accountRepository.save(account);
+        mailService.sendVerifyMail(account.getUsername(), code);
+        return ApiResponseHelper.success();
+    }
+
+    public ResponseEntity<?> confirmForgotCode(String email, String code) throws Exception {
+        Account account = accountRepository.findByUsername(email).orElseThrow(() -> new UsernameNotFoundException(Messages.USER_NOT_FOUND));
+        if (!Objects.equals(account.getVerifyCode(), code)) {
+            throw new VerifyErrorException(Messages.VERIFY_CODE_NOT_MATCH);
+        }
+        String newPassword = uCodeProvider.generateUCode(UCodeProvider.STANDARD_LENGTH);
+        account.setPassword(passwordEncoder.encode(newPassword));
+        account.setVerifyCode(null);
+        accountRepository.save(account);
+        mailService.sendForgotPasswordMail(account.getUsername(), newPassword);
+        return ApiResponseHelper.success();
+    }
 }
