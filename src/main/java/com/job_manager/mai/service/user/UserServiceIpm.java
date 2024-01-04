@@ -1,6 +1,7 @@
 package com.job_manager.mai.service.user;
 
 import com.job_manager.mai.contrains.Messages;
+import com.job_manager.mai.exception.AccountNotVerify;
 import com.job_manager.mai.exception.UserExited;
 import com.job_manager.mai.exception.UserNotFoundException;
 import com.job_manager.mai.model.Account;
@@ -34,6 +35,9 @@ public class UserServiceIpm extends BaseService implements UserService {
         Account account = accountRepository.findById(request.getAccountId()).orElseThrow(() -> new UserNotFoundException(Messages.USER_NOT_FOUND));
         if (account.getUser() != null) {
             throw new UserExited(Messages.USER_EXITED);
+        }
+        if (!account.isVerify() || account.isActive()) {
+            throw new AccountNotVerify(Messages.ACCOUNT_NOT_VERIFY);
         }
         User newUser = getMapper().map(request, User.class);
         newUser.setEmail(account.getUsername());
