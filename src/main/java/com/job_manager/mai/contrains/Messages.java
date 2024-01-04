@@ -21,4 +21,6 @@ public class Messages {
     public static final String ACCOUNT_HAS_VERIFY = "Tài khoản của bạn đã được xác nhận";
 
     public static String USER_NOT_FOUND = "Người dùng không tồn tại";
+
+    public static final String COLUMN_NOT_BLANK = "Trường %s không được để trống";
 }

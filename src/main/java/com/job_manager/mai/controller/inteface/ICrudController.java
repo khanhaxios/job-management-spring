@@ -3,14 +3,14 @@ package com.job_manager.mai.controller.inteface;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
-public interface ICrudController<Request, TypeID> {
-    ResponseEntity<?> add(Request requestBody);
+public interface ICrudController<Request, C extends Request, U extends Request, D extends Request, TypeID> {
+    ResponseEntity<?> add(C requestBody);
 
-    ResponseEntity<?> update(Request requestBody, TypeID Id);
+    ResponseEntity<?> update(U requestBody, TypeID Id);
 
     ResponseEntity<?> delete(TypeID Id);
 
-    ResponseEntity<?> deleteAll(Request request);
+    ResponseEntity<?> deleteAll(D request);
 
     ResponseEntity<?> getById(TypeID id);
 

@@ -3,7 +3,9 @@ package com.job_manager.mai.controller.base;
 import com.job_manager.mai.contrains.Messages;
 import com.job_manager.mai.contrains.Permission;
 import com.job_manager.mai.contrains.Roles;
+import com.job_manager.mai.model.Account;
 import com.job_manager.mai.model.Role;
+import com.job_manager.mai.repository.AccountRepository;
 import com.job_manager.mai.repository.RoleRepository;
 import com.job_manager.mai.util.SecurityHelper;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,16 @@ import java.util.Objects;
 public class BaseController {
 
     private final RoleRepository roleRepository;
+
+    private final AccountRepository accountRepository;
+
+    public boolean checkIfSelf(String accountId, String username) {
+        Account account = accountRepository.findByUsername(username).orElse(null);
+        if (account == null) {
+            return false;
+        }
+        return account.getId().equals(accountId);
+    }
 
     public void processPermission(Permission permission) throws Exception {
 

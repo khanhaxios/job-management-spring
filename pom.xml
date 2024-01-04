@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.job_manager</groupId>
-	<artifactId>mai</artifactId>
+	<artifactId>fira</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>mai</name>
+	<name>fira</name>
 	<description>Job manager by Mai</description>
 	<properties>
 		<java.version>17</java.version>
