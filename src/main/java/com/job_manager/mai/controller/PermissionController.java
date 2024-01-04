@@ -5,7 +5,7 @@ import com.job_manager.mai.controller.base.BaseController;
 import com.job_manager.mai.controller.inteface.IBaseController;
 import com.job_manager.mai.repository.AccountRepository;
 import com.job_manager.mai.request.permission.PermissionRequest;
-import com.job_manager.mai.service.permission.PermissionService;
+//import com.job_manager.mai.service.permission.PermissionService;
 import com.job_manager.mai.util.ApiResponseHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

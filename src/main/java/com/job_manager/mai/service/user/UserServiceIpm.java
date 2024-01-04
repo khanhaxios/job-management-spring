@@ -32,13 +32,15 @@ public class UserServiceIpm extends BaseService implements UserService {
     @Override
     public ResponseEntity<?> store(CreateUserRequest request) throws Exception {
         Account account = accountRepository.findById(request.getAccountId()).orElseThrow(() -> new UserNotFoundException(Messages.USER_NOT_FOUND));
-        boolean isExited = userRepository.findUserByAccount(account).isPresent();
-        if (isExited) {
+        if (account.getUser() != null) {
             throw new UserExited(Messages.USER_EXITED);
         }
         User newUser = getMapper().map(request, User.class);
+        newUser.setEmail(account.getUsername());
         newUser.setAccount(account);
-        return ApiResponseHelper.resp(userRepository.saveAndFlush(newUser), HttpStatus.OK, Messages.DEFAULT_SUCCESS_MESSAGE);
+        User user = userRepository.saveAndFlush(newUser);
+        account.setUser(user);
+        return ApiResponseHelper.resp(user, HttpStatus.OK, Messages.DEFAULT_SUCCESS_MESSAGE);
     }
 
     @Override

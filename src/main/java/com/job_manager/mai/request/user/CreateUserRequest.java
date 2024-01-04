@@ -1,9 +1,12 @@
 package com.job_manager.mai.request.user;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 import java.util.Date;
 
+@Data
 public class CreateUserRequest extends UserRequest {
     @NotBlank(message = "Firstname is required")
     private String firstName;
@@ -13,7 +16,7 @@ public class CreateUserRequest extends UserRequest {
 
     @NotBlank(message = "Address is required")
     private String address;
-    @NotBlank(message = "Birthday is required")
+    @NotNull(message = "Birthday is required")
 
     private Date birthday;
 

@@ -11,13 +11,11 @@ import com.job_manager.mai.request.user.UserRequest;
 import com.job_manager.mai.service.user.UserServiceIpm;
 import com.job_manager.mai.util.ApiResponseHelper;
 import com.job_manager.mai.util.SecurityHelper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
@@ -31,7 +29,7 @@ public class UserController implements IBaseController<UserRequest, CreateUserRe
 
     @PostMapping
     @Override
-    public ResponseEntity<?> add(CreateUserRequest requestBody) {
+    public ResponseEntity<?> add(@Valid @RequestBody CreateUserRequest requestBody) {
         try {
             if (!baseController.checkIfSelf(requestBody.getAccountId(), SecurityHelper.getLoggedUser())) {
                 baseController.processPermission(Permission.MANAGE_USER_CREATE);
