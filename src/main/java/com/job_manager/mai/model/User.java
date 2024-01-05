@@ -13,11 +13,11 @@ import java.util.UUID;
 public class User {
 
     public User() {
-        this.id = UUID.randomUUID().toString();
+        this.Id = UUID.randomUUID().toString();
     }
 
     @Id
-    private String id;
+    private String Id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -25,12 +25,14 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(unique = true)
     private String email;
     private String address;
     private Date birthday;
 
     private String department;
 
+    @Column(unique = true)
     private String phone;
     @OneToOne
     @JsonIgnore

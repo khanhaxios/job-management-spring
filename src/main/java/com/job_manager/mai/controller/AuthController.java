@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 @RequestMapping("/api/public/auth")
 public class AuthController {
     private final AccountService accountService;
@@ -49,6 +50,24 @@ public class AuthController {
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest) {
         try {
             return ApiResponseHelper.resp(accountService.register(registerRequest), HttpStatus.OK, Messages.DEFAULT_SUCCESS_MESSAGE);
+        } catch (Exception e) {
+            return ApiResponseHelper.fallback(e);
+        }
+    }
+
+    @GetMapping("/forgot-password/{email}")
+    public ResponseEntity<?> requestForgotPasswordCode(@PathVariable(name = "email") String email) {
+        try {
+            return accountService.sendForgotPasswordCode(email);
+        } catch (Exception e) {
+            return ApiResponseHelper.fallback(e);
+        }
+    }
+
+    @GetMapping("/confirm-forgot-password/{email}/{code}")
+    public ResponseEntity<?> confirmForgotPasswordCode(@PathVariable(name = "email") String email, @PathVariable(name = "code") String code) {
+        try {
+            return accountService.confirmForgotCode(email, code);
         } catch (Exception e) {
             return ApiResponseHelper.fallback(e);
         }

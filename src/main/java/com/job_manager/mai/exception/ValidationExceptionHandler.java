@@ -1,32 +1,48 @@
 package com.job_manager.mai.exception;
 
+import com.job_manager.mai.contrains.Messages;
 import com.job_manager.mai.util.ApiResponseHelper;
-import org.springframework.http.HttpStatus;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.validation.FieldError;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
+import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestControllerAdvice
 public class ValidationExceptionHandler {
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleValidExceptions(MethodArgumentNotValidException ex) {
-        List<String> errors = new ArrayList<>();
-
-        for (ObjectError error : ex.getBindingResult().getAllErrors()) {
-            String errorMessage = error.getDefaultMessage();
-            errors.add(errorMessage);
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> handleValidExceptions(Exception ex) {
+        if (ex instanceof MethodArgumentNotValidException) {
+            List<String> errors = new ArrayList<>();
+            for (ObjectError error : ((MethodArgumentNotValidException) ex).getBindingResult().getAllErrors()) {
+                String errorMessage = error.getDefaultMessage();
+                errors.add(errorMessage);
+            }
+            return ApiResponseHelper.invalid(errors);
         }
-        return ApiResponseHelper.invalid(errors);
+        if (ex instanceof BadCredentialsException) {
+            return ApiResponseHelper.unAuthorized();
+        }
+        if (ex instanceof AccessDeniedException) {
+            return ApiResponseHelper.accessDenied();
+        }
+        if (ex instanceof SignatureException) {
+            return ApiResponseHelper.signature();
+        }
+        if (ex instanceof ExpiredJwtException) {
+            return ApiResponseHelper.authTokenExpired();
+        }
+        if (ex instanceof NoHandlerFoundException) {
+            return ApiResponseHelper.notFound(Messages.NOT_FOUND_RESOURCE);
+        }
+        return ApiResponseHelper.fallback(ex);
     }
 }
