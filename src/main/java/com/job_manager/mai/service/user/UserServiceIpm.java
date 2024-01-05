@@ -76,4 +76,9 @@ public class UserServiceIpm extends BaseService implements UserService {
     public ResponseEntity<?> searchByName(Pageable pageable, String name) throws Exception {
         return null;
     }
+
+    @Override
+    public ResponseEntity<?> SearchAndSortByProperties(Pageable pageable, String searchProperties, String sortProperties) throws Exception {
+        return null;
+    }
 }

@@ -13,11 +13,11 @@ import java.util.UUID;
 public class User {
 
     public User() {
-        this.id = UUID.randomUUID().toString();
+        this.Id = UUID.randomUUID().toString();
     }
 
     @Id
-    private String id;
+    private String Id;
 
     @Column(name = "first_name")
     private String firstName;

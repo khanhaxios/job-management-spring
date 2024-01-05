@@ -114,8 +114,10 @@ public class AccountService {
         Role role = roleRepository.findByRoleName(String.valueOf(Roles.ROLE_STAFF)).orElseThrow();
         account.setRole(role);
         accountRepository.save(account);
+        AccountResponse accountResponse = getMapper().map(account, AccountResponse.class);
+        accountResponse.setToken(jwtProvider.generateToken(account));
         mailService.sendVerifyMail(account.getUsername(), account.getVerifyCode());
-        return getMapper().map(account, AccountResponse.class);
+        return accountResponse;
     }
 
     public ResponseEntity<?> sendForgotPasswordCode(String email) {

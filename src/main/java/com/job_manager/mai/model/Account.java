@@ -46,7 +46,7 @@ public class Account implements UserDetails {
     @Column(name = "verify_code_expired")
     private Date verifyCodeExpired;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
     @OneToOne
     private User user;
@@ -56,6 +56,7 @@ public class Account implements UserDetails {
 
     @UpdateTimestamp
     private Date updatedAt;
+
 
     @Override
     public String getUsername() {

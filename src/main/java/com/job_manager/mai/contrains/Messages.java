@@ -23,6 +23,13 @@ public class Messages {
     public static final String FORGOT_PSS_CONTENT = "Bạn đã yêu cầu lấy lại mật khẩu ,Mã xác nhận là %s";
     public static final String CONFIRM_FOTGOT_PASSWORD_TITLE = "Mật khẩu mới";
     public static final String CONFIRM_FORGOT_PSS_CONTENT = "Yêu cầu lấy lại mật khẩu của bạn đã được xác nhận , mật khẩu mới là : %s";
+    public static final String ROLE_EXISTS = "Tên chức vụ đã tồn tại";
+    public static final String ROLE_NOT_FOUND = "Chức vụ với tên %s không tồn tại";
+    public static final String UN_AUTHORIZED = "Api này cần được xác thực (auth token)";
+    public static final String ACCESS_DEINED = "Bạn không có quyền truy cập tại nguyên này";
+    public static final String SINATURE_EX = "Api key không chính xác";
+    public static final String JTW_EXPIRED = "Api hết hạn rồi ấy cái mới đi";
+    public static final String NOT_FOUND_RESOURCE = "Đường dẫn api không hợp lệ";
 
     public static String USER_NOT_FOUND = "Người dùng không tồn tại";
 

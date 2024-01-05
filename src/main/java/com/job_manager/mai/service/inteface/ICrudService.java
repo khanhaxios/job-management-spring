@@ -15,5 +15,5 @@ public interface ICrudService<Request, C extends Request, U extends Request, D e
 
     ResponseEntity<?> getAll(Pageable pageable);
 
-    ResponseEntity<?> getById(TypeId id);
+    ResponseEntity<?> getById(TypeId id) throws Exception;
 }

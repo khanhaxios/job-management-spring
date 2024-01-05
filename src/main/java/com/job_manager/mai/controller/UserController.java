@@ -8,6 +8,7 @@ import com.job_manager.mai.request.user.CreateUserRequest;
 import com.job_manager.mai.request.user.DeleteUserRequest;
 import com.job_manager.mai.request.user.UpdateUserRequest;
 import com.job_manager.mai.request.user.UserRequest;
+import com.job_manager.mai.service.user.UserService;
 import com.job_manager.mai.service.user.UserServiceIpm;
 import com.job_manager.mai.util.ApiResponseHelper;
 import com.job_manager.mai.util.SecurityHelper;
@@ -25,7 +26,7 @@ public class UserController implements IBaseController<UserRequest, CreateUserRe
 
     private final BaseController baseController;
 
-    private final UserServiceIpm userServiceIpm;
+    private final UserService userService;
 
     @PostMapping
     @Override
@@ -34,7 +35,7 @@ public class UserController implements IBaseController<UserRequest, CreateUserRe
             if (!baseController.checkIfSelf(requestBody.getAccountId(), SecurityHelper.getLoggedUser())) {
                 baseController.processPermission(Permission.MANAGE_USER_CREATE);
             }
-            return userServiceIpm.store(requestBody);
+            return userService.store(requestBody);
         } catch (Exception e) {
             return ApiResponseHelper.fallback(e);
         }

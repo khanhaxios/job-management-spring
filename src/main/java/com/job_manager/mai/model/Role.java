@@ -1,11 +1,10 @@
 package com.job_manager.mai.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -13,14 +12,21 @@ import java.util.List;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column(name = "role_name", nullable = false)
+    private long Id;
+    @Column(name = "role_name", nullable = false, unique = true)
     private String roleName;
 
-    @OneToMany
-    @JsonIgnore
-    private List<Account> accounts;
+    @Column(name = "description")
+    private String description;
 
-    @ManyToMany
-    private List<Permission> permissions;
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonIgnore
+    private Set<Account> accounts;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Permission> permissions;
+
+    public void addPerm(Permission permission) {
+        this.permissions.add(permission);
+    }
 }

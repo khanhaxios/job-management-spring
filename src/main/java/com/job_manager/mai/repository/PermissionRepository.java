@@ -15,4 +15,5 @@ public interface PermissionRepository extends JpaRepository<Permission, Long> {
     Optional<Permission> findByName(String name);
 
     Page<Permission> findByNameContaining(Pageable pageable, String name);
+
 }
