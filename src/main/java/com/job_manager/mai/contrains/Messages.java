@@ -30,6 +30,8 @@ public class Messages {
     public static final String SINATURE_EX = "Api key không chính xác";
     public static final String JTW_EXPIRED = "Api hết hạn rồi ấy cái mới đi";
     public static final String NOT_FOUND_RESOURCE = "Đường dẫn api không hợp lệ";
+    public static final String CANNOT_DELETE_PERM = "Không thể xóa perm này bởi nó là mặc định của hệ thống";
+    public static final String ROLE_CANNOT_ACTION = "Quyền này là quyền mặc định của hệ thống không thể sửa";
 
     public static String USER_NOT_FOUND = "Người dùng không tồn tại";
 

@@ -6,10 +6,7 @@ import java.util.Set;
 
 @Data
 public class UpdateRoleRequest extends RoleRequest {
-
-    private String roleName;
     private String description;
-
     private Set<Long> permissionIds;
 
 }

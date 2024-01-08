@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -23,10 +24,12 @@ public class Role {
     @JsonIgnore
     private Set<Account> accounts;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<Permission> permissions;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    private Set<Permission> permissions = new HashSet<>();
 
     public void addPerm(Permission permission) {
         this.permissions.add(permission);
     }
+
+    private boolean canAction;
 }

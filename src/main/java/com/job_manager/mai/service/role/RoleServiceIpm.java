@@ -1,7 +1,10 @@
 package com.job_manager.mai.service.role;
 
 import com.job_manager.mai.contrains.Messages;
+import com.job_manager.mai.exception.CannotAction;
+import com.job_manager.mai.exception.PermissionNotFound;
 import com.job_manager.mai.exception.RoleExists;
+import com.job_manager.mai.model.Permission;
 import com.job_manager.mai.model.Role;
 import com.job_manager.mai.repository.PermissionRepository;
 import com.job_manager.mai.repository.RoleRepository;
@@ -40,12 +43,8 @@ public class RoleServiceIpm extends BaseService implements RoleService {
             throw new RoleExists(Messages.ROLE_EXISTS);
         }
         Role newRole = getMapper().map(request, Role.class);
-        if (!request.getPermissionIds().isEmpty()) {
-            for (long id : request.getPermissionIds()) {
-                newRole.addPerm(permissionRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(Messages.PERMISSION_NOTFOUND)));
-            }
-        }
-        return ApiResponseHelper.success(iRoleResponser.mapTo(roleRepository.saveAndFlush(newRole)));
+        newRole.setCanAction(true);
+        return addPermToRole(newRole, request.getPermissionIds());
     }
 
     private boolean existsByName(String roleName) {
@@ -64,15 +63,22 @@ public class RoleServiceIpm extends BaseService implements RoleService {
     public ResponseEntity<?> edit(UpdateRoleRequest request, Long aLong) throws Exception {
         Role role = findById(aLong);
 
-        if (existsByName(request.getRoleName())) {
-            throw new RoleExists(Messages.ROLE_EXISTS);
+        if (!role.isCanAction()) {
+            throw new CannotAction(Messages.ROLE_CANNOT_ACTION);
         }
-
         BeanUtils.copyProperties(request, role, getNullPropertyNames(request));
 
-        if (!request.getPermissionIds().isEmpty()) {
-            for (long id : request.getPermissionIds()) {
-                role.addPerm(permissionRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(Messages.PERMISSION_NOTFOUND)));
+        return addPermToRole(role, request.getPermissionIds());
+    }
+
+    private ResponseEntity<?> addPermToRole(Role role, Set<Long> permissionIds) throws PermissionNotFound {
+        if (!permissionIds.isEmpty()) {
+            for (long id : permissionIds) {
+                Permission permission = permissionRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(Messages.PERMISSION_NOTFOUND));
+                if (!permission.isActive()) {
+                    throw new PermissionNotFound(Messages.PERMISSION_NOTFOUND);
+                }
+                role.addPerm(permission);
             }
         }
         return ApiResponseHelper.success(iRoleResponser.mapTo(roleRepository.saveAndFlush(role)));
@@ -81,6 +87,9 @@ public class RoleServiceIpm extends BaseService implements RoleService {
     @Override
     public ResponseEntity<?> destroy(Long aLong) throws Exception {
         Role role = findById(aLong);
+        if (!role.isCanAction()) {
+            throw new CannotAction(Messages.ROLE_CANNOT_ACTION);
+        }
         role.getAccounts().clear();
         role.getPermissions().clear();
         roleRepository.delete(role);
@@ -91,9 +100,11 @@ public class RoleServiceIpm extends BaseService implements RoleService {
     public ResponseEntity<?> destroyAll(DeleteRoleRequest request) throws Exception {
         List<Role> roles = findAllByIds(request.getRoleIds());
         roles.forEach((r) -> {
-            r.getAccounts().clear();
-            r.getPermissions().clear();
-            roleRepository.delete(r);
+            if (r.isCanAction()) {
+                r.getAccounts().clear();
+                r.getPermissions().clear();
+                roleRepository.delete(r);
+            }
         });
         return ApiResponseHelper.success();
     }

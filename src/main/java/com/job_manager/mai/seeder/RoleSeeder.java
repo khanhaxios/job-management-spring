@@ -26,6 +26,7 @@ public class RoleSeeder implements CommandLineRunner, Ordered {
                 if (!exitRole.isPresent()) {
                     Role newRole = new Role();
                     newRole.setRoleName(role);
+                    newRole.setCanAction(false);
                     roleRepository.save(newRole);
                 }
             } catch (Exception e) {
