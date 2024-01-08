@@ -78,6 +78,7 @@ public class RoleController implements IBaseController<RoleRequest, CreateRoleRe
         }
     }
 
+    @GetMapping
     @Override
     public ResponseEntity<?> getAll(Pageable pageable) {
         try {

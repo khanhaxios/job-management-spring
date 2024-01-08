@@ -29,6 +29,8 @@ public class PermissionSeeder implements CommandLineRunner, Ordered {
                     com.job_manager.mai.model.Permission newPerm = new com.job_manager.mai.model.Permission();
                     newPerm.setName(perm);
                     newPerm.setDescription("");
+                    newPerm.setCanDelete(false);
+                    newPerm.setActive(true);
                     permissionRepository.saveAndFlush(newPerm);
                 }
             } catch (Exception e) {
