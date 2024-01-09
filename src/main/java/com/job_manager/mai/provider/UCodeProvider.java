@@ -21,6 +21,10 @@ public class UCodeProvider {
         return this.chars.length;
     }
 
+    public int getCharNumLength() {
+        return this.numChars.length;
+    }
+
     public String generateUCode(int length) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < length; i++) {
@@ -32,7 +36,7 @@ public class UCodeProvider {
     public String generateUCode() {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < STANDARD_LENGTH_NUM; i++) {
-            stringBuilder.append(numChars[getRandomNumber(0, getCharsLength())]);
+            stringBuilder.append(numChars[getRandomNumber(0, getCharNumLength())]);
         }
         return stringBuilder.toString();
     }

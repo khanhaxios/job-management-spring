@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.yaml.snakeyaml.events.Event;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,9 +21,9 @@ public class Permission {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
-    Set<Role> roles;
+    Set<Role> roles = new HashSet<>();
 
     private boolean canDelete;
 

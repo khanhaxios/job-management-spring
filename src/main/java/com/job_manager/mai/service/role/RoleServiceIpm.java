@@ -90,8 +90,7 @@ public class RoleServiceIpm extends BaseService implements RoleService {
         if (!role.isCanAction()) {
             throw new CannotAction(Messages.ROLE_CANNOT_ACTION);
         }
-        role.getAccounts().clear();
-        role.getPermissions().clear();
+        roleRepository.deleteRolePerm(role.getId());
         roleRepository.delete(role);
         return ApiResponseHelper.success();
     }
@@ -101,8 +100,7 @@ public class RoleServiceIpm extends BaseService implements RoleService {
         List<Role> roles = findAllByIds(request.getRoleIds());
         roles.forEach((r) -> {
             if (r.isCanAction()) {
-                r.getAccounts().clear();
-                r.getPermissions().clear();
+                roleRepository.deleteRolePerm(r.getId());
                 roleRepository.delete(r);
             }
         });

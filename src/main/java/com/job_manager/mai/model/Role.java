@@ -20,15 +20,25 @@ public class Role {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonIgnore
-    private Set<Account> accounts;
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "permission_roles",
+            joinColumns = {@JoinColumn(name = "role_id")},
+            inverseJoinColumns = {@JoinColumn(name = "permission_id")}
+    )
     private Set<Permission> permissions = new HashSet<>();
 
     public void addPerm(Permission permission) {
         this.permissions.add(permission);
+    }
+
+    public void removePerm(Permission permission) {
+        this.permissions.remove(permission);
+        permission.getRoles().remove(this);
+    }
+
+    public void clear() {
+        this.permissions.clear();
     }
 
     private boolean canAction;

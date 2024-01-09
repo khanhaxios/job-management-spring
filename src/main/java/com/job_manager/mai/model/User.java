@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Table(name = "users")
@@ -37,6 +39,8 @@ public class User {
     @OneToOne
     @JsonIgnore
     private Account account;
+
+
 
     public String getFullName() {
         return firstName + lastName;

@@ -20,7 +20,7 @@ public class Messages {
     public static final String VERIFY_CODE_NOT_MATCH = "Mã xác nhận không chính xác";
     public static final String VERIFY_CODE_EXPIRED = "Mã xác nhận đã hết hạn";
     public static final String ACCOUNT_HAS_VERIFY = "Tài khoản của bạn đã được xác nhận";
-    public static final String FORGOT_PSS_CONTENT = "Bạn đã yêu cầu lấy lại mật khẩu ,Mã xác nhận là %s";
+    public static final String FORGOT_PSS_CONTENT = "Bạn đã yêu cầu lấy lại mật khẩu ,Mật khẩu mới là :  %s";
     public static final String CONFIRM_FOTGOT_PASSWORD_TITLE = "Mật khẩu mới";
     public static final String CONFIRM_FORGOT_PSS_CONTENT = "Yêu cầu lấy lại mật khẩu của bạn đã được xác nhận , mật khẩu mới là : %s";
     public static final String ROLE_EXISTS = "Tên chức vụ đã tồn tại";
