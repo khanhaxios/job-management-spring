@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -20,7 +22,11 @@ public class Message {
     private String content;
 
     @Nullable
-    private String media;
+    @OneToMany
+    private Set<Media> media = new HashSet<>();
+
+    @ManyToOne
+    private Member sender;
 
     private LocalDateTime sentAt;
 
@@ -29,6 +35,9 @@ public class Message {
     }
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
     private Room room;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "message_readers", joinColumns = {@JoinColumn(name = "message_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id")})
+    private Set<Member> readers = new HashSet<>();
 }

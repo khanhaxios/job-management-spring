@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/roles")
 @RequiredArgsConstructor
+@CrossOrigin
 public class RoleController implements IBaseController<RoleRequest, CreateRoleRequest, UpdateRoleRequest, DeleteRoleRequest, Long> {
 
     private final BaseController baseController;

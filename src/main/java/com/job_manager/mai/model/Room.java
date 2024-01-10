@@ -15,6 +15,9 @@ public class Room {
     @jakarta.persistence.Id
     private String Id;
 
+    @Column
+    private String roomName;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "member_rooms", joinColumns = {@JoinColumn(name = "room_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id")})
     private Set<Member> members;
@@ -22,9 +25,17 @@ public class Room {
     private int maxMemberCount;
 
     @OneToMany
+    @JsonIgnore
     private Set<Message> messages = new HashSet<>();
+
+    @OneToMany
+    private Set<Media> media = new HashSet<>();
 
     public Room() {
         this.setId(UUID.randomUUID().toString());
+    }
+
+    public void addMember(Member member) {
+        this.members.add(member);
     }
 }

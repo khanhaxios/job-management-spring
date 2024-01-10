@@ -32,6 +32,8 @@ public class Messages {
     public static final String NOT_FOUND_RESOURCE = "Đường dẫn api không hợp lệ";
     public static final String CANNOT_DELETE_PERM = "Không thể xóa perm này bởi nó là mặc định của hệ thống";
     public static final String ROLE_CANNOT_ACTION = "Quyền này là quyền mặc định của hệ thống không thể sửa";
+    public static final String ROOM_NOT_FOUND = "Không tìm thấy phòng với id là %s";
+    public static final String MESSAGE_NOT_FOUND = "Không tìm thấy message";
 
     public static String USER_NOT_FOUND = "Người dùng không tồn tại";
 

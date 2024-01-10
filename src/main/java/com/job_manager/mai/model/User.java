@@ -40,7 +40,7 @@ public class User {
     @JsonIgnore
     private Account account;
 
-
+    private String avatar;
 
     public String getFullName() {
         return firstName + lastName;

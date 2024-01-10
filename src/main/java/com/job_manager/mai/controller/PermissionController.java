@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/permissions")
 @RequiredArgsConstructor
+@CrossOrigin
 public class PermissionController implements IBaseController<PermissionRequest, CreatePermRequest, UpdatePermRequest, DeletePermRequest, Long> {
 
     private final PermissionService permissionService;
