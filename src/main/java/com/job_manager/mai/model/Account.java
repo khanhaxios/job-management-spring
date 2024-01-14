@@ -1,5 +1,6 @@
 package com.job_manager.mai.model;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -49,6 +50,7 @@ public class Account implements UserDetails {
     @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
     @OneToOne
+    @Nullable
     private User user;
 
     @CreationTimestamp

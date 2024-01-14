@@ -24,12 +24,13 @@ public class BaseController {
 
     private final AccountRepository accountRepository;
 
-    public boolean checkIfSelf(String accountId, String username) {
+    public boolean checkIfSelf(String username) {
+        String currentUsername = SecurityHelper.getLoggedUser();
         Account account = accountRepository.findByUsername(username).orElse(null);
         if (account == null) {
             return false;
         }
-        return account.getId().equals(accountId);
+        return account.getUsername().equals(currentUsername);
     }
 
     public void processPermission(Permission permission) throws Exception {

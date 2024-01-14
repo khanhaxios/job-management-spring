@@ -34,11 +34,10 @@ public class User {
 
     private String department;
 
+    @ManyToMany(mappedBy = "members")
+    private Set<Room> rooms = new HashSet<>();
     @Column(unique = true)
     private String phone;
-    @OneToOne
-    @JsonIgnore
-    private Account account;
 
     private String avatar;
 

@@ -34,6 +34,10 @@ public class Messages {
     public static final String ROLE_CANNOT_ACTION = "Quyền này là quyền mặc định của hệ thống không thể sửa";
     public static final String ROOM_NOT_FOUND = "Không tìm thấy phòng với id là %s";
     public static final String MESSAGE_NOT_FOUND = "Không tìm thấy message";
+    public static final String INVATOR_NOT_FOUND = "Thông tin đối phương không hợp lệ trên hệ thống";
+    public static final String CONTACT_NOT_FOUND = "Không tìm thấy yêu cầu";
+    public static final String BIRTHDAY_NOT_VALID = "Định dạng ngày sinh không đúng hoặc ngày sinh ở tương lai";
+    public static final String PHONE_EXIT = "Số điện thoại đã được sử dụng";
 
     public static String USER_NOT_FOUND = "Người dùng không tồn tại";
 

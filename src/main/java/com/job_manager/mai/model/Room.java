@@ -20,13 +20,25 @@ public class Room {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "member_rooms", joinColumns = {@JoinColumn(name = "room_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id")})
-    private Set<Member> members;
+    private Set<User> members;
 
     private int maxMemberCount;
 
     @OneToMany
     @JsonIgnore
     private Set<Message> messages = new HashSet<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "banned_user_rooms", joinColumns = {@JoinColumn(name = "room_id")}, inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    private Set<User> bannedUser = new HashSet<>();
+
+    @ManyToOne
+    private User leader;
+
+    @ManyToMany
+    @JoinTable(name = "room_sub_leaders", joinColumns = {@JoinColumn(name = "room_id")}, inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    private Set<User> subLeader = new HashSet<>();
+
 
     @OneToMany
     private Set<Media> media = new HashSet<>();
@@ -35,7 +47,7 @@ public class Room {
         this.setId(UUID.randomUUID().toString());
     }
 
-    public void addMember(Member member) {
+    public void addMember(User member) {
         this.members.add(member);
     }
 }

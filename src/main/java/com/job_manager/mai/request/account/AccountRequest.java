@@ -11,4 +11,6 @@ public class AccountRequest {
 
     @NotBlank(message = "Password is required")
     public String password;
+
+
 }

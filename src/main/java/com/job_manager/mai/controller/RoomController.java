@@ -22,12 +22,6 @@ public class RoomController {
     private final MessageService messageService;
     private final RoomService roomService;
 
-    @MessageMapping("/room")
-    @SendTo("/all/rooms")
-    public Message pushMessageToRoom(Message message) {
-        return message;
-    }
-
     @PostMapping("/send")
     public ResponseEntity<?> sendMessage(@Valid @RequestBody UserMessageRequest userMessageRequest) {
         try {

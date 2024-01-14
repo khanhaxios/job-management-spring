@@ -16,6 +16,7 @@ public class Media {
 
     private String mediaLink;
 
+    private String mediaType;
     private String senderId;
 
     private LocalDateTime sentAt;

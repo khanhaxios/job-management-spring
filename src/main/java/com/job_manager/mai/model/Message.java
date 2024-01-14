@@ -26,7 +26,7 @@ public class Message {
     private Set<Media> media = new HashSet<>();
 
     @ManyToOne
-    private Member sender;
+    private User sender;
 
     private LocalDateTime sentAt;
 
@@ -39,5 +39,5 @@ public class Message {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "message_readers", joinColumns = {@JoinColumn(name = "message_id")}, inverseJoinColumns = {@JoinColumn(name = "member_id")})
-    private Set<Member> readers = new HashSet<>();
+    private Set<User> readers = new HashSet<>();
 }

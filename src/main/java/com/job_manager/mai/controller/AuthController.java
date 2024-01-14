@@ -2,10 +2,12 @@ package com.job_manager.mai.controller;
 
 import com.job_manager.mai.contrains.Messages;
 import com.job_manager.mai.request.account.AccountRequest;
+import com.job_manager.mai.request.account.LoginWithAuthTokenRequest;
 import com.job_manager.mai.request.account.RegisterRequest;
 import com.job_manager.mai.request.account.VerifyEmailRequest;
 import com.job_manager.mai.service.account.AccountService;
 import com.job_manager.mai.util.ApiResponseHelper;
+import io.jsonwebtoken.JwtException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,17 @@ public class AuthController {
     public ResponseEntity<?> login(@Valid @RequestBody AccountRequest accountRequest) {
         try {
             return ApiResponseHelper.resp(accountService.login(accountRequest), HttpStatus.OK, Messages.DEFAULT_SUCCESS_MESSAGE);
+        } catch (Exception e) {
+            return ApiResponseHelper.fallback(e);
+        }
+    }
+
+    @PostMapping("/login-with-token")
+    public ResponseEntity<?> loginWithAuthToken(@Valid @RequestBody LoginWithAuthTokenRequest accountRequest) {
+        try {
+            return ApiResponseHelper.resp(accountService.loginWithAuthRok(accountRequest), HttpStatus.OK, Messages.DEFAULT_SUCCESS_MESSAGE);
+        } catch (JwtException e) {
+            return ApiResponseHelper.signature();
         } catch (Exception e) {
             return ApiResponseHelper.fallback(e);
         }

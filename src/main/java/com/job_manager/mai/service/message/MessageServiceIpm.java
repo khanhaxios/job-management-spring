@@ -2,12 +2,12 @@ package com.job_manager.mai.service.message;
 
 import com.job_manager.mai.contrains.Messages;
 import com.job_manager.mai.exception.UserNotFoundException;
-import com.job_manager.mai.model.Member;
 import com.job_manager.mai.model.Message;
 import com.job_manager.mai.model.Room;
-import com.job_manager.mai.repository.MemberRepository;
+import com.job_manager.mai.model.User;
 import com.job_manager.mai.repository.MessageRepository;
 import com.job_manager.mai.repository.RoomRepository;
+import com.job_manager.mai.repository.UserRepository;
 import com.job_manager.mai.request.messages.CreateMessageRequest;
 import com.job_manager.mai.request.messages.DeleteMessageRequest;
 import com.job_manager.mai.request.messages.UpdateMessageRequest;
@@ -17,7 +17,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.converter.SimpleMessageConverter;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +27,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class MessageServiceIpm extends BaseService implements MessageService {
 
-    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
 
     private final MessageRepository messageRepository;
 
@@ -38,8 +37,8 @@ public class MessageServiceIpm extends BaseService implements MessageService {
     @Override
     public ResponseEntity<?> store(CreateMessageRequest request) throws Exception {
         Message message = getMapper().map(request, Message.class);
-        Member member = memberRepository.findById(request.getMemberId()).orElseThrow(() -> new UserNotFoundException(Messages.USER_NOT_FOUND));
-        message.setSender(member);
+        User user = userRepository.findById(request.getMemberId()).orElseThrow(() -> new UserNotFoundException(Messages.USER_NOT_FOUND));
+        message.setSender(user);
         Room room = roomRepository.findById(request.getRoomId()).orElseThrow(() -> new UserNotFoundException(String.format(Messages.ROOM_NOT_FOUND, request.getRoomId())));
         message.setRoom(room);
         message.setSentAt(LocalDateTime.now());
@@ -87,7 +86,7 @@ public class MessageServiceIpm extends BaseService implements MessageService {
     @Override
     public void readMessage(String memberId, String messageId) throws Exception {
         Message message = messageRepository.findById(messageId).orElseThrow(() -> new UserNotFoundException(Messages.MESSAGE_NOT_FOUND));
-        message.getReaders().add(memberRepository.findById(memberId).orElse(null));
+        message.getReaders().add(userRepository.findById(memberId).orElse(null));
         messageRepository.save(message);
     }
 }

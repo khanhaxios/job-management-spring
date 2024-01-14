@@ -32,7 +32,7 @@ public class UserController implements IBaseController<UserRequest, CreateUserRe
     @Override
     public ResponseEntity<?> add(@Valid @RequestBody CreateUserRequest requestBody) {
         try {
-            if (!baseController.checkIfSelf(requestBody.getAccountId(), SecurityHelper.getLoggedUser())) {
+            if (!baseController.checkIfSelf(SecurityHelper.getLoggedUser())) {
                 baseController.processPermission(Permission.MANAGE_USER_CREATE);
             }
             return userService.store(requestBody);

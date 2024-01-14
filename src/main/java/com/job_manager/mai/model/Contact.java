@@ -13,8 +13,11 @@ public class Contact {
     private long Id;
 
     @ManyToOne
-    private Member owner;
+    private User owner;
 
     @ManyToOne
-    private Member relate;
+    private User relate;
+
+    private int status;
+
 }

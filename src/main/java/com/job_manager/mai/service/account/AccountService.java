@@ -10,6 +10,7 @@ import com.job_manager.mai.provider.UCodeProvider;
 import com.job_manager.mai.repository.AccountRepository;
 import com.job_manager.mai.repository.RoleRepository;
 import com.job_manager.mai.request.account.AccountRequest;
+import com.job_manager.mai.request.account.LoginWithAuthTokenRequest;
 import com.job_manager.mai.request.account.RegisterRequest;
 import com.job_manager.mai.response.account.AccountResponse;
 import com.job_manager.mai.service.util.MailService;
@@ -51,6 +52,17 @@ public class AccountService {
         if (!passwordEncoder.matches(accountRequest.getPassword(), account.getPassword())) {
             throw new PasswordErrorException(Messages.PASSWORD_INCORRECT);
         }
+        return getAccountResponse(account);
+    }
+
+    public AccountResponse loginWithAuthRok(LoginWithAuthTokenRequest accountRequest) throws Exception {
+        String username = jwtProvider.extractUserName(accountRequest.getToken());
+        Account account = accountRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(Messages.USER_NOT_FOUND));
+
+        return getAccountResponse(account);
+    }
+
+    private AccountResponse getAccountResponse(Account account) throws AccountNotVerify, AccountNotActive {
         if (!account.isVerify()) {
             throw new AccountNotVerify(Messages.ACCOUNT_NOT_VERIFY);
         }
