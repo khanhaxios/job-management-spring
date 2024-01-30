@@ -42,7 +42,7 @@ public class User {
     private String avatar;
 
     public String getFullName() {
-        return firstName + lastName;
+        return firstName + " " + lastName.trim();
     }
 
 }

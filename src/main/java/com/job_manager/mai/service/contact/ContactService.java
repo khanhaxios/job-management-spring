@@ -10,5 +10,9 @@ public interface ContactService {
 
     public ResponseEntity<?> getAllContactByUser(Pageable pageable, String userId) throws Exception;
 
-    public ResponseEntity<?> getAllAddContactRequestByUser(Pageable pageable, String userId) throws Exception;
+    public ResponseEntity<?> getAllAddContactRequestByUserRelate(Pageable pageable, String userId) throws Exception;
+
+    public ResponseEntity<?> getAllAddContactRequestByUserOwner(Pageable pageable, String userId) throws Exception;
+
+    ResponseEntity<?> getContactByEmail(String email) throws Exception;
 }

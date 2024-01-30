@@ -4,6 +4,7 @@ import com.job_manager.mai.listener.ContactListener;
 import com.job_manager.mai.request.contact.AddContactRequest;
 import com.job_manager.mai.request.contact.ResponseContactRequest;
 import com.job_manager.mai.service.contact.ContactService;
+import com.job_manager.mai.service.user.UserService;
 import com.job_manager.mai.util.ApiResponseHelper;
 import io.swagger.annotations.Api;
 import jakarta.validation.Valid;
@@ -41,10 +42,19 @@ public class ContactController {
         }
     }
 
+    @GetMapping("/search/by-email/{email}")
+    public ResponseEntity<?> searchContactByUserEmail(@PathVariable(name = "email") String email) {
+        try {
+            return contactService.getContactByEmail(email);
+        } catch (Exception e) {
+            return ApiResponseHelper.fallback(e);
+        }
+    }
+
     @GetMapping("/{userId}")
     public ResponseEntity<?> getAllContactByUser(@PathVariable(name = "userId") String userId, Pageable pageable) {
         try {
-            return contactService.getAllAddContactRequestByUser(pageable, userId);
+            return contactService.getAllContactByUser(pageable, userId);
         } catch (Exception e) {
             return ApiResponseHelper.fallback(e);
         }
@@ -53,9 +63,19 @@ public class ContactController {
     @GetMapping("/requests/{userId}")
     public ResponseEntity<?> getAllContactRequestByUser(@PathVariable(name = "userId") String userId, Pageable pageable) {
         try {
-            return contactService.getAllAddContactRequestByUser(pageable, userId);
+            return contactService.getAllAddContactRequestByUserOwner(pageable, userId);
         } catch (Exception e) {
             return ApiResponseHelper.fallback(e);
         }
     }
+
+    @GetMapping("/requests/related/{userId}")
+    public ResponseEntity<?> getAllContactRequestByUserRelated(@PathVariable(name = "userId") String userId, Pageable pageable) {
+        try {
+            return contactService.getAllAddContactRequestByUserRelate(pageable, userId);
+        } catch (Exception e) {
+            return ApiResponseHelper.fallback(e);
+        }
+    }
+
 }

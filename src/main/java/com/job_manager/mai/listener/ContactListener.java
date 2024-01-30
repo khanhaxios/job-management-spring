@@ -30,7 +30,7 @@ public class ContactListener {
     }
 
     public void convertAndSendEvent(ContactEventResponse contactEventResponse, String to) {
-        simpMessagingTemplate.convertAndSendToUser(to, "/contact", contactEventResponse);
+        simpMessagingTemplate.convertAndSend("/contact", contactEventResponse);
     }
 
     @EventListener
