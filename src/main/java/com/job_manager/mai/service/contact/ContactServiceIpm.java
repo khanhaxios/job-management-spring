@@ -40,7 +40,7 @@ public class ContactServiceIpm implements ContactService {
     public ResponseEntity<?> sendAddContactRequest(String from, String to) throws Exception {
         User owner = userRepository.findById(from).orElseThrow(() -> new UsernameNotFoundException(Messages.USER_NOT_FOUND));
         User relate = userRepository.findById(to).orElseThrow(() -> new UsernameNotFoundException(Messages.INVATOR_NOT_FOUND));
-        Contact contact = contactRepository.findByOwnerAndRelate(owner, relate).orElse(new Contact());
+        Contact contact = contactRepository.findByOwnerAndRelate(owner, relate).orElse(contactRepository.findByOwnerAndRelate(relate, owner).orElse(new Contact()));
         contact.setRelate(relate);
         contact.setOwner(owner);
         contact.setStatus(ContactStatus.WAITING_RESPONSE);
@@ -54,8 +54,9 @@ public class ContactServiceIpm implements ContactService {
         Contact contact = contactRepository.findById(contactId).orElseThrow(() -> new UsernameNotFoundException(Messages.CONTACT_NOT_FOUND));
         if (command == ContactResponseCommand.DENIED.getValue()) {
             contact.setStatus(ContactStatus.DENIED);
+        } else {
+            contact.setStatus(ContactStatus.BE_FRIEND);
         }
-        contact.setStatus(ContactStatus.BE_FRIEND);
         contactRepository.save(contact);
         contactPusher.pushContactRequestResponse(contact);
         return ApiResponseHelper.success(contact);
@@ -63,7 +64,7 @@ public class ContactServiceIpm implements ContactService {
 
     @Override
     public ResponseEntity<?> getAllContactByUser(Pageable pageable, String userId) throws Exception {
-        return ApiResponseHelper.success(contactRepository.findAllByOwnerAndStatus(pageable, userRepository.findById(userId).orElse(null), ContactStatus.BE_FRIEND));
+        return ApiResponseHelper.success(contactRepository.findAllByOwnerOrRelateAndStatus(pageable, userId, ContactStatus.BE_FRIEND));
     }
 
     @Override

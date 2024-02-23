@@ -12,6 +12,7 @@ public class CreateUserRequest extends UserRequest {
     @NotBlank(message = "Firstname is required")
     private String firstName;
 
+    private String avatar;
     @NotBlank(message = "Lastname is required")
     private String lastName;
 

@@ -51,6 +51,9 @@ public class UserServiceIpm extends BaseService implements UserService {
         }
         User newUser = getMapper().map(request, User.class);
         newUser.setEmail(account.getUsername());
+        if (request.getAvatar() == null) {
+            newUser.setAvatar(com.job_manager.mai.contrains.User.DEFAULT_AVATAR);
+        }
         User user = userRepository.saveAndFlush(newUser);
         account.setUser(user);
 
