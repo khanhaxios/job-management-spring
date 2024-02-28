@@ -13,4 +13,6 @@ public interface RoomService extends IBaseService<RoomRequest, CreateRoomRequest
     ResponseEntity<?> getByMember(String memberId);
 
     ResponseEntity<?> getMessageById(Pageable pageable, String roomId);
+
+    ResponseEntity<?> getAllByUser(Pageable pageable, String userId);
 }

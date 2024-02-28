@@ -15,4 +15,6 @@ public interface ContactService {
     public ResponseEntity<?> getAllAddContactRequestByUserOwner(Pageable pageable, String userId) throws Exception;
 
     ResponseEntity<?> getContactByEmail(String email) throws Exception;
+
+    ResponseEntity<?> cancelContactRequest(Long contactId);
 }

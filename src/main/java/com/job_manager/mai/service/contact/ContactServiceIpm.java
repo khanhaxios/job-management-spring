@@ -88,4 +88,10 @@ public class ContactServiceIpm implements ContactService {
         }
         return ApiResponseHelper.success(Collections.singletonList(user));
     }
+
+    @Override
+    public ResponseEntity<?> cancelContactRequest(Long contactId) {
+        contactRepository.deleteById(contactId);
+        return  ApiResponseHelper.success();
+    }
 }

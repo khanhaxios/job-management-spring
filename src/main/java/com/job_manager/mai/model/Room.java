@@ -39,6 +39,9 @@ public class Room {
     @JoinTable(name = "room_sub_leaders", joinColumns = {@JoinColumn(name = "room_id")}, inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private Set<User> subLeader = new HashSet<>();
 
+    @ManyToMany(mappedBy = "rooms")
+    @JsonIgnore
+    private Set<RoomTag> tags = new HashSet<>();
 
     @OneToMany
     private Set<Media> media = new HashSet<>();
@@ -50,4 +53,5 @@ public class Room {
     public void addMember(User member) {
         this.members.add(member);
     }
+
 }

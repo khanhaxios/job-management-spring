@@ -77,5 +77,13 @@ public class ContactController {
             return ApiResponseHelper.fallback(e);
         }
     }
+    @DeleteMapping("/request/delete/{contactId}")
+    public ResponseEntity<?> deleteContactRequest(@PathVariable(name = "contactId") Long contactId){
+        try {
+            return contactService.cancelContactRequest(contactId);
+        } catch (Exception e) {
+            return ApiResponseHelper.fallback(e);
+        }
+    }
 
 }
